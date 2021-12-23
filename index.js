@@ -13,23 +13,36 @@ const resetBtn = document.getElementById("restart");
 const score = document.querySelector(".score");
 const scoreCount = document.querySelector("#score");
 const displayScore = document.querySelector(".displayScore");
+let jingle_bellsAudio = new Audio("./media/jingle_bells.mp3");
+let jumpAudio = new Audio("./media/jump.mp3");
+let merry_christmasAudio = new Audio("./media/Merry_Christmas.mp3");
+let audioIcon = document.querySelector(".audioIcon");
+let audioProfile = true;
 let removeClass;
 let scoreActive = false;
 let Timer = 4;
 let gameScoreCount = 0;
+let gamePage = "homePage";
 
 //functions starts
 window.addEventListener("load", () => {
   setTimeout(() => {
     loading.classList.remove("active");
     beforeGame.classList.add("active");
+    audioIcon.classList.add("active");
   }, 2000);
 });
 
 let wishFunction = () => {
   afterGame.classList.add("active");
   game.classList.remove("active");
-  displayScore.innerHTML = `Your Score is: <span>${gameScoreCount}</span>`
+  displayScore.innerHTML = `Your Score is: <span>${gameScoreCount}</span>`;
+  jingle_bellsAudio.pause();
+  if (audioProfile) {
+    merry_christmasAudio.play();
+    merry_christmasAudio.loop = true;
+  }
+  gamePage = "wishPage";
 };
 
 let timerFunction = () => {
@@ -63,14 +76,22 @@ let startGameFunction = () => {
       score.classList.add("active");
     }
   }, 1000);
+  if (audioProfile) {
+    jingle_bellsAudio.play();
+  jingle_bellsAudio.loop = true;
+  }
 };
 
-let jumpFunction = () => {
-  if (game.classList.contains("active") && Timer === 0) {
+let jumpFunction = (e) => {
+  console.log();
+  if (game.classList.contains("active") && Timer === 0 && !e.target.classList.contains("audioIcon")) {
     if (santa.classList != "jump") {
       clearTimeout(removeClass);
       santa.classList.add("jump");
-      
+      //to add jump sound
+      if (audioProfile) {
+        jumpAudio.play();
+      }
     }
     //for geting scores
     setTimeout(() => {
@@ -116,13 +137,36 @@ let checkDead = setInterval(() => {
 }, 10);
 
 startGame.addEventListener("click", startGameFunction);
-document.addEventListener("keypress", jumpFunction);
+document.addEventListener("keyup", jumpFunction);
 document.addEventListener("click", jumpFunction);
 resetBtn.addEventListener("click", () => {
   afterGame.classList.remove("active");
   beforeGame.classList.add("active");
+  if (audioProfile) {
+    jingle_bellsAudio.play();
+    merry_christmasAudio.pause();
+  }
+  gamePage = "homePage";
 });
 
+//for audio button
+audioIcon.addEventListener("click", (e) => {
+  let volume = e.target.querySelector("#volume");
+  let mute = e.target.querySelector("#mute");
+
+  if (audioProfile) {
+    volume.style.opacity = "0";
+    mute.style.opacity = "1";
+    audioProfile = false;
+    jingle_bellsAudio.pause();
+    merry_christmasAudio.pause();
+  } else {
+    volume.style.opacity = "1";
+    mute.style.opacity = "0";
+    audioProfile = true;
+    gamePage === "homePage" ? jingle_bellsAudio.play() : merry_christmasAudio.play() ;
+  }
+});
 
 //for mediaQuery
 let mediaScreen = window.matchMedia("(max-width: 750px)");
@@ -138,6 +182,7 @@ function mediaQueryFunction(x) {
 
 mediaQueryFunction(mediaScreen)
 mediaScreen.addListener(mediaQueryFunction)
+
 
 // to stop the inspect element
 document.addEventListener("contextmenu", function (e) {
