@@ -1,0 +1,611 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: #d7ebfe;
+  overflow: hidden;
+  position: relative;
+}
+
+body #gameAlert {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.705);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: none;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  line-height: 60px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  text-transform: capitalize;
+  -webkit-text-decoration: underline #042f92;
+          text-decoration: underline #042f92;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body #gameAlert.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+body .loading {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #48c3c8;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body .loading.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: zoom 0.7s linear forwards;
+          animation: zoom 0.7s linear forwards;
+  pointer-events: all;
+}
+
+body .loading img {
+  width: 20%;
+}
+
+body .loading h1 {
+  font-size: 40px;
+  color: #fff;
+  margin-top: 20px;
+}
+
+body .beforeGame {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #fff;
+  display: none;
+  opacity: 0;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  pointer-events: none;
+}
+
+body .beforeGame.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: zoom 0.7s linear forwards;
+          animation: zoom 0.7s linear forwards;
+  pointer-events: all;
+}
+
+body .beforeGame img {
+  width: 50%;
+  pointer-events: none;
+}
+
+body .beforeGame #startGame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 12px 15px;
+  border: 3px solid #3492eb;
+  border-radius: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+body .beforeGame #startGame:hover {
+  background-color: #3492eb;
+  border-color: #fff;
+  color: #fff;
+}
+
+body .game {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: #d7ebfe;
+  display: none;
+  opacity: 0;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  pointer-events: none;
+  z-index: 10;
+}
+
+body .game.active {
+  display: block;
+  -webkit-animation: zoom 0.7s linear forwards;
+          animation: zoom 0.7s linear forwards;
+  pointer-events: all;
+}
+
+body .game .gameTimer, body .game .score {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  background-color: #ffffffde;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 60px;
+  font-family: cursive;
+  z-index: 3;
+  pointer-events: none;
+  -webkit-box-shadow: 1px 1px 5px #0000008a;
+          box-shadow: 1px 1px 5px #0000008a;
+}
+
+body .game .gameTimer::before, body .game .score::before {
+  content: "";
+  position: absolute;
+  top: 90%;
+  width: 10px;
+  height: 33vh;
+  border-radius: 50px 50px 15px 15px;
+  background-color: #f93535;
+  -webkit-box-shadow: 2px 2px 6px #0000008a;
+          box-shadow: 2px 2px 6px #0000008a;
+}
+
+body .game .score {
+  font-size: 60px;
+  line-height: 54px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: none;
+  opacity: 0;
+}
+
+body .game .score.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 1;
+}
+
+body .game .score #score {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+body .game video {
+  position: absolute;
+  overflow: hidden;
+  width: 50%;
+  bottom: 0px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+body .game .firstVideo {
+  left: 0px;
+}
+
+body .game .secondVideo {
+  right: 0px;
+}
+
+body .game .santa,
+body .game .tree {
+  position: absolute;
+  bottom: 10px;
+  height: 180px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+body .game .santa img,
+body .game .tree img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  pointer-events: none;
+}
+
+body .game .santa {
+  width: 300px;
+  left: 150px;
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+  pointer-events: none;
+}
+
+body .game .santa.jump {
+  -webkit-animation: jump 1.5s linear forwards;
+          animation: jump 1.5s linear forwards;
+}
+
+body .game .santa.jump img {
+  -webkit-animation: rotateSanta 1.5s linear forwards;
+          animation: rotateSanta 1.5s linear forwards;
+}
+
+body .game .tree {
+  width: 140px;
+  right: -20%;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 750px) {
+  body .game .tree {
+    opacity: 0;
+    display: none;
+  }
+}
+
+body .game .clouds {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  pointer-events: none;
+}
+
+body .game .clouds img {
+  width: 10%;
+}
+
+body .game .clouds .two {
+  padding-top: 100px;
+}
+
+body .afterGame {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("../media/decoration.gif") #fff;
+  background-position: top;
+  background-size: 500px 127px;
+  background-repeat: repeat-x;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: none;
+  opacity: 0;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  pointer-events: none;
+}
+
+body .afterGame.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: zoom 0.7s linear forwards;
+          animation: zoom 0.7s linear forwards;
+  pointer-events: all;
+}
+
+body .afterGame .displayScore {
+  font-size: 35px;
+  font-weight: 600;
+  font-family: cursive;
+  text-decoration: underline;
+  margin-top: 20px;
+  text-transform: capitalize;
+}
+
+body .afterGame .displayScore span {
+  color: #cd0a0e;
+  font-size: 40px;
+}
+
+body .afterGame .image {
+  width: 50%;
+  position: relative;
+  margin-top: 20px;
+}
+
+body .afterGame .image img {
+  width: 100%;
+  display: block;
+}
+
+body .afterGame .image .shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 8px 8px 11px 2px white inset, -8px -8px 11px 2px white inset;
+          box-shadow: 8px 8px 11px 2px white inset, -8px -8px 11px 2px white inset;
+  top: 0;
+  left: 0;
+}
+
+body .afterGame .image #restart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 14px 17px;
+  font-size: 20px;
+  border-radius: 50px;
+  border: 2px solid #fff;
+  outline: none;
+  cursor: pointer;
+  background-color: #db0530;
+  color: #fff;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+body .afterGame .image #restart:hover {
+  background-color: #eef0f4;
+  color: #042f92;
+}
+
+body .audioIcon {
+  position: absolute;
+  background: #0f68c1;
+  opacity: 0;
+  width: 53px;
+  height: 53px;
+  display: none;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  -webkit-transition: .1s;
+  transition: .1s;
+  -webkit-box-shadow: 2px 3px 8px 0px rgba(109, 181, 252, 0.884);
+          box-shadow: 2px 3px 8px 0px rgba(109, 181, 252, 0.884);
+}
+
+body .audioIcon.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: zoom 0.7s linear forwards;
+          animation: zoom 0.7s linear forwards;
+}
+
+@media screen and (max-width: 600px) {
+  body .audioIcon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body .audioIcon {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+body .audioIcon:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  border: 2px solid #fff;
+}
+
+body .audioIcon #mute, body .audioIcon #volume {
+  position: absolute;
+  color: white;
+  font-size: 26px;
+  pointer-events: none;
+}
+
+body .audioIcon #mute {
+  opacity: 0;
+}
+
+@-webkit-keyframes block {
+  0% {
+    right: -10px;
+  }
+  100% {
+    right: 120%;
+  }
+}
+
+@keyframes block {
+  0% {
+    right: -10px;
+  }
+  100% {
+    right: 120%;
+  }
+}
+
+@-webkit-keyframes jump {
+  0% {
+    bottom: 10px;
+  }
+  30% {
+    bottom: 200px;
+  }
+  70% {
+    bottom: 200px;
+  }
+  100% {
+    bottom: 10px;
+  }
+}
+
+@keyframes jump {
+  0% {
+    bottom: 10px;
+  }
+  30% {
+    bottom: 200px;
+  }
+  70% {
+    bottom: 200px;
+  }
+  100% {
+    bottom: 10px;
+  }
+}
+
+@-webkit-keyframes rotateSanta {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  30% {
+    -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+  }
+  70% {
+    -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+@keyframes rotateSanta {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  30% {
+    -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+  }
+  70% {
+    -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes zoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes zoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@-webkit-keyframes scoreZoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0) translate(-50%, -50%);
+            transform: scale(0) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1) translate(-50%, -50%);
+            transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes scoreZoom {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0) translate(-50%, -50%);
+            transform: scale(0) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1) translate(-50%, -50%);
+            transform: scale(1) translate(-50%, -50%);
+  }
+}
+/*# sourceMappingURL=style.css.map */
